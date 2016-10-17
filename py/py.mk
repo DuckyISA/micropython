@@ -296,10 +296,10 @@ $(HEADER_BUILD)/qstrdefs.generated.h: $(PY_QSTR_DEFS) $(QSTR_DEFS) $(QSTR_DEFS_C
 $(PY_BUILD)/nlr%.o: CFLAGS += -Os
 
 # optimising gc for speed; 5ms down to 4ms on pybv2
-$(PY_BUILD)/gc.o: CFLAGS += $(CSUPEROPT)
+#$(PY_BUILD)/gc.o: CFLAGS += $(CSUPEROPT)
 
 # optimising vm for speed, adds only a small amount to code size but makes a huge difference to speed (20% faster)
-$(PY_BUILD)/vm.o: CFLAGS += $(CSUPEROPT)
+#$(PY_BUILD)/vm.o: CFLAGS += $(CSUPEROPT)
 # Optimizing vm.o for modern deeply pipelined CPUs with branch predictors
 # may require disabling tail jump optimization. This will make sure that
 # each opcode has its own dispatching jump which will improve branch

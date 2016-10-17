@@ -38,7 +38,7 @@
 #if 0
 #define TRACE(ip) printf("sp=%d ", (int)(sp - &code_state->state[0] + 1)); mp_bytecode_print2(ip, 1, code_state->fun_bc->const_table);
 #else
-#define TRACE(ip)
+#  define TRACE(ip)
 #endif
 
 // Value stack grows up (this makes it incompatible with native C stack, but

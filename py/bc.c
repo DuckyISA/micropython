@@ -88,18 +88,6 @@ STATIC NORETURN void fun_pos_args_mismatch(mp_obj_fun_bc_t *f, size_t expected, 
 #endif
 }
 
-#if DEBUG_PRINT
-STATIC void dump_args(const mp_obj_t *a, size_t sz) {
-    DEBUG_printf("%p: ", a);
-    for (size_t i = 0; i < sz; i++) {
-        DEBUG_printf("%p ", a[i]);
-    }
-    DEBUG_printf("\n");
-}
-#else
-#define dump_args(...) (void)0
-#endif
-
 // On entry code_state should be allocated somewhere (stack/heap) and
 // contain the following valid entries:
 //    - code_state->fun_bc should contain a pointer to the function object
