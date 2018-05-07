@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include "py/mpconfig.h"
+#include "py/obj.h"
 
-#include "lib/utils/pyhelp.h"
+//#include "lib/utils/pyhelp.h"
 
 STATIC const char *help_text =
 "Welcome to MicroPython!\n"
@@ -18,7 +20,8 @@ STATIC mp_obj_t builtin_help(uint n_args, const mp_obj_t *args)
   if (n_args == 0) {
     printf("%s", help_text);
   } else {
-    pyhelp_print_obj(args[0]);
+    mp_help_print_obj(args[0]);
+    //pyhelp_print_obj(args[0]);
   }
 
   return mp_const_none;

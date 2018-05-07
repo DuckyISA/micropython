@@ -29,6 +29,7 @@
 #define MICROPY_DEBUG_OBJTYPE       (0)
 #define MICROPY_DEBUG_OBJFUN        (0)
 #define MICROPY_DEBUG_PRINTERS      (0)
+#define MICROPY_DEBUG_VERBOSE       (0)
 
 #define MICROPY_STACK_CHECK         (1)
 
@@ -92,6 +93,7 @@
 #define MICROPY_LONGINT_IMPL        (MICROPY_LONGINT_IMPL_NONE)
 #define MICROPY_FLOAT_IMPL          (MICROPY_FLOAT_IMPL_NONE)
 #define MICROPY_MODULE_FROZEN_STR   (0)
+#define MICROPY_USE_INTERNAL_ERRNO  (1)
 
 #define MP_ENDIANNESS_LITTLE        (1)
 #define MICROPY_OBJ_BASE_ALIGNMENT  __attribute__((aligned(4)))
@@ -115,15 +117,7 @@ typedef u32_t mp_uint_t;
 typedef i32_t mp_off_t;
 #endif // ! __ASSEMBLER__
 
-#define MP_PLAT_PRINT_STRN(str, len) mp_hal_stdout_tx_strn_cooked(str, len)
-
-// extra built in names to add to the global namespace
-#ifndef __ASSEMBLER__
-extern const struct _mp_obj_fun_builtin_t mp_builtin_open_obj;
-#endif // ! __ASSEMBLER__
-
-#define MICROPY_PORT_BUILTINS \
-  { MP_OBJ_NEW_QSTR(MP_QSTR_help), (mp_obj_t)&mp_builtin_help_obj },
+#define MP_PLAT_PRINT_STRN(str, len) do { mp_hal_stdout_tx_strn(str, len); } while(0)
 
 // extra built in modules to add to the list of known ones
 #define MICROPY_PY_MACHINE (1)

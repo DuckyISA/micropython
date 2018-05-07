@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include "mpducky.h"
 
+#include <uart.h>
+
 #include <cpu/exceptions.h>
 
 void do_str(const char *src, mp_parse_input_kind_t input_kind) {
@@ -40,14 +42,14 @@ void do_str(const char *src, mp_parse_input_kind_t input_kind) {
 // Necessary to workaround LLVM's bug - materialization of immediates
 // in case immediate fits into encoding but results in a negative value.
 extern char _heap;
-static char *_heap_start = &_heap;
+//static char *_heap_start = &_heap;
 
 extern char _stack_start;
 
 int main(int argc, char **argv)
 {
 #if MICROPY_ENABLE_GC
-    gc_init(_heap_start, _heap_start + DUCKY_HEAP_SIZE);
+    gc_init(&_heap, &_heap + DUCKY_HEAP_SIZE);
 #endif
 
     mp_init();
@@ -97,7 +99,9 @@ mp_obj_t mp_builtin_open(uint n_args, const mp_obj_t *args, mp_map_t *kwargs) {
 }
 MP_DEFINE_CONST_FUN_OBJ_KW(mp_builtin_open_obj, 1, mp_builtin_open);
 
-void nlr_jump_fail(void *val) {
+NORETURN void nlr_jump_fail(void *val) {
+  puts("** Uncaught NLR! **\n");
+  halt(0x91);
 }
 
 
@@ -147,18 +151,20 @@ evt_entry_t evt[] __attribute__((section(".evt"))) = {
   UNHANDLED_EVT_ENTRY()
 };
 
+/*
 static void init_rtc(void)
 {
-  // Setup RTC frequency
-  //*(u8_t *)(RTC_MMIO_ADDRESS + RTC_MMIO_FREQ) = 1;
+  *(u8_t *)(RTC_MMIO_ADDRESS + RTC_MMIO_FREQ) = 1;
 }
+*/
 
 void _start(void)
 {
   // called by _entry, with stack initialized
 
-  mp_stack_set_top(&_stack_start);
-  mp_stack_set_limit(DUCKY_STACK_SIZE);
+  mp_stack_ctrl_init();
+//  mp_stack_set_top(&_stack_start);
+  mp_stack_set_limit(DUCKY_STACK_SIZE - 32);
 
   // initialize CPU and peripherals
   //init_rtc();

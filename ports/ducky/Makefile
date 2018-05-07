@@ -1,4 +1,4 @@
-include ../py/mkenv.mk
+include ../../py/mkenv.mk
 
 DUCKY_TOOLCHAIN_ROOT ?= /opt/ducky
 
@@ -8,16 +8,15 @@ LD := $(DUCKY_TOOLCHAIN_ROOT)/bin/ld.lld
 LIBDUCKY_LIB ?= $(DUCKY_TOOLCHAIN_ROOT)/lib/libducky.a
 LIBDUCKY_INCLUDES ?= $(DUCKY_TOOLCHAIN_ROOT)/usr/include
 
-# qstr definitions (must come before including py.mk)
+# qstr definitions (must come before including py.mk
 QSTR_DEFS = qstrdefsport.h
 
 # include py core make definitions
-include ../py/py.mk
+include $(TOP)/py/py.mk
 
 INC += -isystem $(LIBDUCKY_INCLUDES)
-INC += -I.
-INC += -I..
-INC += -I../lib/mp-readline
+INC += -I$(TOP)
+INC += -I$(TOP)/ports/ducky
 INC += -I$(BUILD)
 
 CFLAGS := -nostdinc $(INC) \
@@ -44,13 +43,11 @@ endif
 
 SRC_C = \
 	main.c \
-	help.c \
 	uart_core.c \
-	lib/utils/stdout_helpers.c \
-	lib/utils/pyexec.c \
-	lib/utils/pyhelp.c \
-	lib/mp-readline/readline.c \
-	modmachine.c
+	modmachine.c \
+	$(TOP)/lib/mp-readline/readline.c \
+	$(TOP)/lib/utils/pyexec.c \
+	$(TOP)/lib/utils/stdout_helpers.c
 
 SRC_QSTR += $(SRC_C)
 
@@ -65,4 +62,4 @@ firmware: $(BUILD)/firmware
 lowlevel.o: lowlevel.S mpconfigport.h
 	$(CC) -c $(CFLAGS) -o $@ $<
 
-include ../py/mkrules.mk
+include $(TOP)/py/mkrules.mk

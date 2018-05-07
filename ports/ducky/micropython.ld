@@ -38,8 +38,7 @@ SECTIONS {
 
   _hiram_start = .;
 
-  /* .data section LMA is right after .rodata but its VMA must be in RAM. Copying the data from ROM
-   * to the RAM is handled by __init_data function */
+  /* .data section LMA is right after .rodata but its VMA must be in RAM */
   .data : AT ( ADDR(.rodata) + SIZEOF(.rodata) ) {
     . = ALIGN(4);
     _data_start = .;

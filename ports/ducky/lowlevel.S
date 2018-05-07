@@ -32,7 +32,7 @@ _entry:
   // it does not return, signal such condition by weird exit code
   hlt 0x1f
 
-  //FUNC _entry
+  FUNC _entry
 
 
 /*
@@ -44,30 +44,24 @@ _entry:
 __do_idle:
   idle
   ret
-
-  //PUBFUNC __do_idle
+  PUBFUNC __do_idle
 
 __do_cli:
   cli
   ret
+  PUBFUNC __do_cli
 
-  //PUBFUNC __do_cli
 
-
-  .global __do_sti
 __do_sti:
   sti
   ret
+  PUBFUNC __do_sti
 
-  //PUBFUNC __do_sti
 
-
-  .global __do_halt
 __do_halt:
   hlt r0
   ret
-
-  //PUBFUNC __do_halt
+  PUBFUNC __do_halt
 
 
 /*

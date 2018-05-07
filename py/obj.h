@@ -786,8 +786,10 @@ typedef struct _mp_obj_fun_builtin_fixed_t {
 typedef struct _mp_obj_fun_builtin_var_t {
     mp_obj_base_t base;
     bool is_kw : 1;
-    mp_uint_t n_args_min : 15; // inclusive
-    mp_uint_t n_args_max : 16; // inclusive
+//    mp_uint_t n_args_min : 15; // inclusive
+//    mp_uint_t n_args_max : 16; // inclusive
+    mp_uint_t n_args_min;
+    mp_uint_t n_args_max;
     union {
         mp_fun_var_t var;
         mp_fun_kw_t kw;

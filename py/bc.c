@@ -164,7 +164,6 @@ void mp_setup_code_state(mp_code_state_t *code_state, size_t n_args, size_t n_kw
 
     if (n_kw != 0 || (scope_flags & MP_SCOPE_FLAG_DEFKWARGS) != 0) {
         DEBUG_printf("Initial args: ");
-        dump_args(code_state->state + n_state - n_pos_args - n_kwonly_args, n_pos_args + n_kwonly_args);
 
         mp_obj_t dict = MP_OBJ_NULL;
         if ((scope_flags & MP_SCOPE_FLAG_VARKEYWORDS) != 0) {
@@ -202,7 +201,6 @@ continue2:;
         }
 
         DEBUG_printf("Args with kws flattened: ");
-        dump_args(code_state->state + n_state - n_pos_args - n_kwonly_args, n_pos_args + n_kwonly_args);
 
         // fill in defaults for positional args
         mp_obj_t *d = &code_state->state[n_state - n_pos_args];
@@ -214,7 +212,6 @@ continue2:;
         }
 
         DEBUG_printf("Args after filling default positional: ");
-        dump_args(code_state->state + n_state - n_pos_args - n_kwonly_args, n_pos_args + n_kwonly_args);
 
         // Check that all mandatory positional args are specified
         while (d < &code_state->state[n_state]) {
@@ -268,8 +265,6 @@ continue2:;
     code_state->ip = ip;
 
     DEBUG_printf("Calling: n_pos_args=%d, n_kwonly_args=%d\n", n_pos_args, n_kwonly_args);
-    dump_args(code_state->state + n_state - n_pos_args - n_kwonly_args, n_pos_args + n_kwonly_args);
-    dump_args(code_state->state, n_state);
 }
 
 #if MICROPY_PERSISTENT_CODE_LOAD || MICROPY_PERSISTENT_CODE_SAVE
